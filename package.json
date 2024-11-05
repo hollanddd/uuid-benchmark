@@ -1,0 +1,48 @@
+{
+  "name": "uuid-benchmark",
+  "version": "0.0.0",
+  "description": "uuid benchmark",
+  "keywords": [
+    "typescript"
+  ],
+  "homepage": "https://github.com/hollanddd/uuid-benchmark",
+  "bugs": {
+    "url": "https://github.com/hollanddd/uuid-benchmark/issues"
+  },
+  "author": "Darren Holland <mail@darrenholland.com> (https://darrenholland.com)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hollanddd/uuid-benchmark.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "npm run build && dotenv -e .env -- npm run bench",
+    "bench": "hyperfine 'node ./dist/native-uuid.js' 'node ./dist/lib-uuid.js'",
+    "build": "tsc",
+    "ci": "node --run build && node --run check-format && node --run check-exports && node --run test",
+    "format": "prettier --write .",
+    "check-format": "prettier --check .",
+    "check-exports": "attw --pack . --ignore-rules cjs-resolves-to-esm",
+    "test": "vitest run",
+    "dev": "vitest",
+    "local-release": "changeset version && changeset publish",
+    "prepublishOnly": "node --run ci"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.15.4",
+    "@changesets/cli": "^2.27.7",
+    "@types/request-promise": "^4.1.51",
+    "dotenv-cli": "^7.4.2",
+    "prettier": "^3.3.3",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5"
+  },
+  "dependencies": {
+    "uuid": "^11.0.2"
+  }
+}
